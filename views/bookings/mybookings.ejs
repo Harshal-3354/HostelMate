@@ -1,0 +1,117 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  .booking-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    font-family: Arial, sans-serif;
+  }
+
+  .booking-title {
+    text-align: center;
+    font-size: 36px;
+    color: #2c3e50;
+    margin-bottom: 40px;
+  }
+
+  .no-bookings {
+    text-align: center;
+    font-size: 18px;
+    color: #777;
+  }
+
+  .booking-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+
+  .booking-card {
+    background: #fdfdfd;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transition: 0.3s ease-in-out;
+  }
+
+  .booking-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .booking-card h2 {
+    margin-top: 0;
+    color: #34495e;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .booking-info {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 10px;
+  }
+
+  .bed-tags {
+    margin-top: 10px;
+  }
+
+  .bed-tag {
+    display: inline-block;
+    background-color: #dff0d8;
+    color: #3c763d;
+    border-radius: 20px;
+    padding: 6px 14px;
+    margin: 4px 6px 0 0;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .chat-button {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 10px 18px;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+  }
+
+  .chat-button:hover {
+    background-color: #2980b9;
+  }
+
+  @media (max-width: 768px) {
+    .booking-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<div class="booking-container">
+  <h1 class="booking-title">My Bookings</h1>
+
+  <% if (bookings.length === 0) { %>
+    <p class="no-bookings">You haven't booked any beds yet.</p>
+  <% } %>
+
+  <div class="booking-grid">
+    <% bookings.forEach(booking => { %>
+      <div class="booking-card">
+        <h2><%= booking.listing.title %></h2>
+        <p class="booking-info"><strong>Location:</strong> <%= booking.listing.location %></p>
+        <p class="booking-info"><strong>Owner:</strong> <%= booking.owner.username %></p>
+        <p class="booking-info"><strong>Beds Booked:</strong></p>
+        <div class="bed-tags">
+          <% booking.bedsBooked.forEach(bed => { %>
+            <span class="bed-tag">Bed <%= bed %></span>
+          <% }) %>
+        </div>
+        <a href="/chat/<%= booking.owner._id %>" class="chat-button">Chat with Owner</a>
+      </div>
+    <% }) %>
+  </div>
+</div>
+

@@ -1,0 +1,105 @@
+<% layout("/layouts/boilerplate") %>
+
+<!-- Modern Classy Chat Styles -->
+<style>
+  body {
+    background-color: #f2f6fc;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .chat-container {
+    max-width: 750px;
+    margin: 3rem auto;
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .chat-header {
+    text-align: center;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    letter-spacing: 0.5px;
+  }
+
+  .chat-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .chat-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, #e0f7ff, #ffffff);
+    border: 1px solid #d6eaff;
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.07);
+    transition: transform 0.2s ease, background 0.3s ease;
+  }
+
+  .chat-card:hover {
+    transform: scale(1.015);
+    background: linear-gradient(135deg, #d1ecff, #f9fdff);
+  }
+
+  .chat-user-email {
+    font-size: 1.1rem;
+    color: #007bff;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .chat-user-email:hover {
+    color: #0056b3;
+    text-decoration: underline;
+  }
+
+  .chat-icon {
+    font-size: 1.5rem;
+    color: #007bff;
+    animation: pulse 1.5s infinite ease-in-out;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+  }
+
+  .no-chats {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #888;
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  }
+</style>
+
+<div class="chat-container">
+  <div class="chat-header">Your Conversations</div>
+
+  <% if (chatUsers.length === 0) { %>
+    <div class="no-chats">You haven’t chatted with anyone yet.</div>
+  <% } else { %>
+    <div class="chat-list">
+      <% chatUsers.forEach(user => { %>
+        <div class="chat-card">
+          <a class="chat-user-email" href="/chat/<%= user._id %>">
+            <%= user.username %>
+          </a>
+          <div class="chat-icon">💬</div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</div>

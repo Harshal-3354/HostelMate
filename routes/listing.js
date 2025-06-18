@@ -18,7 +18,7 @@ router
     wrapAsync(listingController.createListing)
   );
   
-
+router.get("/filter", listingController.filterListings);
 //New Route
 router.get("/new", isLoggedIn, listingController.renderNewForm);
 
@@ -44,5 +44,11 @@ router.get(
   isOwner,
   wrapAsync(listingController.renderEditForm)
 );  
+
+router.put('/:id/bookBed/:bedIndex', isLoggedIn, listingController.bookBed);
+router.put("/:id/unbookBed/:index", isLoggedIn, listingController.unbookBed);
+// routes/listings.js
+
+
 
 module.exports = router;

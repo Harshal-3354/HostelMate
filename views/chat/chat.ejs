@@ -1,0 +1,171 @@
+<% layout("/layouts/boilerplate") %>
+<style>
+  body {
+    background: #f0f4f8;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .chat-container {
+    max-width: 700px;
+    margin: 3rem auto;
+    padding: 2rem;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  .chat-header {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 1.5rem;
+  }
+
+  .chat-box {
+    max-height: 450px;
+    overflow-y: auto;
+    padding: 1rem;
+    background: #f7f9fc;
+    border-radius: 14px;
+    border: 1px solid #e0e0e0;
+    margin-bottom: 1.2rem;
+    scroll-behavior: smooth;
+  }
+
+  .msg {
+    max-width: 75%;
+    padding: 0.75rem 1rem;
+    margin: 0.6rem 0;
+    border-radius: 20px;
+    font-size: 1rem;
+    line-height: 1.4;
+    word-wrap: break-word;
+    display: inline-block;
+    clear: both;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .my-msg {
+    background: linear-gradient(135deg, #b2f0c9, #d4fdd6);
+    float: right;
+    text-align: left;
+    border-bottom-right-radius: 0;
+  }
+
+  .their-msg {
+    background: linear-gradient(135deg, #e9edf1, #ffffff);
+    float: left;
+    text-align: left;
+    border-bottom-left-radius: 0;
+  }
+
+  .chat-input {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .chat-input input[type="text"] {
+    flex: 1;
+    padding: 0.7rem 1.2rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+
+  .chat-input input[type="text"]:focus {
+    border-color: #4CAF50;
+  }
+
+  .chat-input button {
+    padding: 0.7rem 1.6rem;
+    font-size: 1rem;
+    font-weight: 500;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .chat-input button:hover {
+    background: #45a049;
+  }
+
+  /* Optional: Nice scrollbar for chat */
+  .chat-box::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .chat-box::-webkit-scrollbar-thumb {
+    background-color: #cccccc;
+    border-radius: 10px;
+  }
+
+  .chat-box::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+  }
+</style>
+
+
+<div class="chat-container">
+  <div class="chat-header">
+    Chat with <%= receiver.email %>
+  </div>
+
+  <div class="chat-box" id="chatBox">
+    <% messages.forEach(msg => { %>
+      <div class="msg <%= msg.sender.equals(currentUser._id) ? 'my-msg' : 'their-msg' %>">
+        <p><%= msg.content %></p>
+      </div>
+    <% }) %>
+  </div>
+
+  <form class="chat-input" id="chatForm" action="/chat/<%= receiver._id %>" method="POST">
+    <input type="text" name="message" placeholder="Type your message..." required autocomplete="off">
+    <button type="submit">Send</button>
+  </form>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+
+  // Join room based on user IDs (sorted to ensure consistency)
+  const senderId = "<%= currentUser._id %>";
+  const receiverId = "<%= receiver._id %>";
+  const room = [senderId, receiverId].sort().join("_");
+  socket.emit("joinRoom", { room });
+
+  // Listen for new messages
+  socket.on("newMessage", ({ message, sender }) => {
+    const chatBox = document.querySelector(".chat-box");
+    const msgDiv = document.createElement("div");
+    msgDiv.className = sender === senderId ? "my-msg" : "their-msg";
+    msgDiv.innerHTML = `<p>${message}</p>`;
+    chatBox.appendChild(msgDiv);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  });
+
+  // Intercept form submit
+  const form = document.querySelector("#chatForm");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const message = form.message.value;
+    socket.emit("chatMessage", {
+      room,
+      message,
+      sender: senderId,
+      receiver: receiverId
+    });
+    form.message.value = "";
+  });
+</script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/chat.js"></script>
+

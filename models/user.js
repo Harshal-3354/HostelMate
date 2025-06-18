@@ -7,6 +7,23 @@ const userSchema=new Schema({
         type:String,
         required:true,
     },
+    bookedBeds: [
+        {
+          bedIndex: Number,
+          listing: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Listing"
+          },
+          owner: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+          },
+          bookedAt: {
+            type: Date,
+            default: Date.now
+          }
+        }
+      ]
 });
 
 userSchema.plugin(passportLocalMongoose);

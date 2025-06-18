@@ -1,0 +1,112 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  body {
+    background-color: #f5f6fa;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .booking-container {
+    max-width: 900px;
+    margin: auto;
+    padding: 40px 20px;
+  }
+
+  .booking-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .card-custom {
+    background: #fff;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+    padding: 25px 30px;
+  }
+
+  .card-custom h4 {
+    margin-bottom: 5px;
+    color: #2d3436;
+  }
+
+  .card-custom small {
+    color: #636e72;
+  }
+
+  .user-entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    margin-top: 10px;
+  }
+
+  .user-entry strong {
+    color: #09814a;
+  }
+
+  .user-entry .badge {
+    background-color: #dfe6e9;
+    color: #2d3436;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+  }
+
+  .chat-btn {
+    background-color: #2ecc71;
+    color: #fff;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    transition: background 0.3s;
+    text-decoration: none;
+  }
+
+  .chat-btn:hover {
+    background-color: #27ae60;
+  }
+
+  .empty-message {
+    text-align: center;
+    background-color: #ffeaa7;
+    padding: 30px;
+    border-radius: 15px;
+    color: #2d3436;
+    font-size: 18px;
+  }
+</style>
+
+<div class="booking-container">
+  <h1 class="booking-header">Users Who Booked My Hostels</h1>
+
+  <% if (bookings.length === 0) { %>
+    <div class="empty-message">
+      <p>No one has booked your Hostels yet.</p>
+    </div>
+  <% } %>
+
+  <% bookings.forEach(booking => { %>
+    <div class="card-custom">
+      <h4><%= booking.listing.title %></h4>
+      <small><%= booking.listing.location %></small>
+
+      <% booking.users.forEach(user => { %>
+        <div class="user-entry">
+          <div>
+            <strong><%= user.name %></strong><br>
+            <small>Email: <%= user.email %></small><br>
+            <span class="badge">Bed No: <%= user.bedIndex %></span>
+          </div>
+          <a href="/chat/<%= user.id %>" class="chat-btn">Chat</a>
+        </div>
+      <% }) %>
+    </div>
+  <% }) %>
+</div>
+

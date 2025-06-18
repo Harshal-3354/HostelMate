@@ -13,8 +13,8 @@ body{
     height: 5rem;
     background-color: white;
 }
-.fa-compass{
-    color:#fe424d;
+.fa-bed{
+    color:#007bff;
     font-size: 2rem;
 }
 .nav-link{
@@ -90,13 +90,13 @@ body{
 
 /* New Page */
 .add-btn{
-    background-color: #fe424d !important;
+    background-color: #007bff !important;
     border: none !important;
 }
 
 /* Edit page */
 .edit-btn{
-    background-color: #fe424d !important;
+    background-color: #007bff !important;
     border: none !important;
 }
 
@@ -118,3 +118,138 @@ body{
     height: 400px;
     width:80vh;
 }
+
+.des-hero {
+    background: linear-gradient(to right, #007bff, #00c6ff);
+}
+
+/* Feature Boxes */
+.des-feature-box {
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.des-feature-box:hover {
+    transform: scale(1.05);
+}
+
+.des-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* Review Carousel */
+.des-review-box {
+    max-width: 600px;
+    background: #f9fafb;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Call to Action */
+.des-btn-success {
+    padding: 12px 24px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+}
+
+
+.bed-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: flex-start;
+    padding: 20px;
+}
+
+.bed-item {
+    text-align: center;
+    position: relative;
+}
+
+.bed-circle {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.available {
+    background-color: #4CAF50;
+    border: 3px solid #2e7d32;
+}
+
+.booked {
+    background-color: #e53935;
+    border: 3px solid #b71c1c;
+    position: relative;
+}
+
+.cross-line {
+    position: absolute;
+    width: 60px;
+    height: 3px;
+    background-color: white;
+    transform: rotate(45deg);
+    top: 50%;
+    left: 5px;
+}
+
+.cross-line.reverse {
+    transform: rotate(-45deg);
+}
+
+.booked-label {
+    color: #b71c1c;
+    font-weight: bold;
+}
+
+.book-btn {
+    background: linear-gradient(to right, #00c6ff, #0072ff);
+    border: none;
+    padding: 8px 18px;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.book-btn:hover {
+    background: linear-gradient(to right, #0072ff, #00c6ff);
+    transform: scale(1.05);
+}
+
+
+.unbook-btn {
+    background: linear-gradient(to right, #ff4e50, #f9d423);
+    border: none;
+    padding: 6px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.unbook-btn:hover {
+    background: linear-gradient(to right, #f9d423, #ff4e50);
+    transform: scale(1.05);
+}
+

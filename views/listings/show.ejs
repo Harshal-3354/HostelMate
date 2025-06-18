@@ -1,4 +1,21 @@
 <% layout("/layouts/boilerplate") %>
+<style>
+.chat-button {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 10px 18px;
+  width: 30%;
+  background-color: #3498db;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background-color 0.3s;
+}
+
+.chat-button:hover {
+  background-color: #2980b9;
+}
+</style>
 <script>
   const mapToken="<%=process.env.MAP_TOKEN %>";
   const listing=<%- JSON.stringify(listing) %>;
@@ -22,6 +39,51 @@
       <p class="card-text"><%=listing.location %></p>
       <p class="card-text"><%= listing.country %></p>
     </div>
+    <div class="mt-4">
+      <h5>Amenities:</h5>
+      <ul class="list-group list-group-flush">
+        <% listing.amenities.forEach(amenity => { %>
+          <li class="list-group-item"><%= amenity %></li>
+        <% }) %>
+      </ul>
+    </div>
+    <a href="/chat/<%=listing.owner._id %>" class="chat-button">Chat with Owner</a>
+    
+    <div class="bed-container">
+      <% listing.beds.forEach((bed, index) => { %>
+        <div class="bed-item">
+          <div class="bed-circle <%= bed.isBooked ? 'booked' : 'available' %>">
+            <%= index + 1 %>
+            <% if (bed.isBooked) { %>
+              <div class="cross-line"></div>
+              <div class="cross-line reverse"></div>
+            <% } %>
+          </div>
+    
+          <% if (!bed.isBooked) { %>
+            <form action="/listings/<%= listing._id %>/bookBed/<%= index %>?_method=PUT" method="POST">
+              <button class="book-btn" type="submit">Book</button>
+            </form>
+    
+          <% } else { %>
+            <% 
+              const isOwner = currUser && currUser._id.equals(listing.owner._id);
+              const isBooker = currUser && bed.bookedBy.id && currUser._id.equals(bed.bookedBy.id);
+            %>
+    
+            <% if (isOwner || isBooker) { %>
+              <form action="/listings/<%= listing._id %>/unbookBed/<%= index %>?_method=PUT" method="POST">
+                <button class="unbook-btn" type="submit">Unbook</button>
+              </form>
+            <% } else { %>
+              <p class="booked-label">Booked</p>
+            <% } %>
+          <% } %>
+        </div>
+      <% }); %>
+    </div>
+    
+      
   </div>
   <br />
   <% if(currUser && currUser._id.equals(listing.owner._id)) { %>

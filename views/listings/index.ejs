@@ -31,15 +31,83 @@
     align-items: center;
   }
 </style>
-    <div id="filters">
+<!-- Add this above your listings on the page -->
+ <!-- Toggle Button -->
+<div class="text-end mb-3">
+  <button id="filterToggleBtn" class="btn btn-outline-primary rounded-pill px-4 py-2 shadow-sm">
+    Show Filters
+  </button>
+</div>
+
+<div id="filterSection" class="container my-4" style="display: none;">
+  <div class="card shadow-lg p-4 rounded-4">
+    <h4 class="mb-4">Filter Listings</h4>
+    <form action="/listings/filter" method="GET" class="row g-3">
+
+      <!-- Location Input -->
+      <div class="col-md-4">
+        <label for="location" class="form-label">Location</label>
+        <input type="text" class="form-control" name="location" id="location" placeholder="Enter location">
+      </div>
+
+      <!-- Gender Dropdown -->
+      <div class="col-md-4">
+        <label for="gender" class="form-label">Gender Preference</label>
+        <select name="gender" class="form-select" id="gender">
+          <option value="Any">Any Gender</option>
+          <option value="Male">Male Only</option>
+          <option value="Female">Female Only</option>
+          <option value="Unisex">Unisex</option>
+        </select>
+      </div>
+
+      <!-- Price Range -->
+      <div class="col-md-2">
+        <label for="minPrice" class="form-label">Min Price</label>
+        <input type="number" class="form-control" name="minPrice" id="minPrice" placeholder="₹ Min">
+      </div>
+
+      <div class="col-md-2">
+        <label for="maxPrice" class="form-label">Max Price</label>
+        <input type="number" class="form-control" name="maxPrice" id="maxPrice" placeholder="₹ Max">
+      </div>
+
+      <!-- Amenities Checkboxes -->
+      <div class="col-12">
+        <label class="form-label d-block">Amenities</label>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" name="amenities" value="WiFi" id="wifi">
+          <label class="form-check-label" for="wifi">WiFi</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" name="amenities" value="Laundry" id="laundry">
+          <label class="form-check-label" for="laundry">Laundry</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" name="amenities" value="Parking" id="parking">
+          <label class="form-check-label" for="parking">Parking</label>
+        </div> 
+        <!-- Add more amenities if needed -->
+      </div>
+
+      <!-- Submit Button -->
+      <div class="col-12 mt-3">
+        <button type="submit" class="btn btn-success px-4 py-2 shadow-sm rounded-pill">Apply Filters</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+    <!-- <div id="filters">
       <div class="filter">
         <div><i class="fa-solid fa-fire"></i></div>
         <p>Trending</p>
       </div>
-      <div class="filter">
+       <div class="filter">
         <div><i class="fa-solid fa-bed"></i></div>
         <p>Rooms</p>
-      </div>
+      </div> 
       <div class="filter">
         <div><i class="fa-solid fa-mountain-city"></i></div>
         <p>Iconic cities</p>
@@ -83,7 +151,8 @@
           <label class="form-check-label" for="flexSwitchCheckDefault">Display total after taxes</label>
         </div>
       </div>
-    </div>
+    </div> -->
+    
     <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
         <% for(let listing of allListings) {%>
           <a href="/listings/<%=listing._id %>" class="listing-link">
@@ -93,7 +162,7 @@
                 <div class="card-body">
                   <p class="card-text">
                     <b><%= listing.title %> </b><br>
-                    &#8377; <%=listing.price.toLocaleString("en-IN") %>/night
+                    &#8377; <%=listing.price.toLocaleString("en-IN") %>/Year
                     <i class="tax-info">&nbsp; &nbsp;+18% GST</i>
                   </p>
                 </div>
@@ -101,12 +170,26 @@
             </a>
             <% } %>
     </div>
-   
-<script>
+    <script>
+      const toggleBtn = document.getElementById("filterToggleBtn");
+      const filterSection = document.getElementById("filterSection");
+    
+      toggleBtn.addEventListener("click", () => {
+        if (filterSection.style.display === "none") {
+          filterSection.style.display = "block";
+          toggleBtn.textContent = "Hide Filters";
+        } else {
+          filterSection.style.display = "none";
+          toggleBtn.textContent = "Show Filters";
+        }
+      });
+    </script>
+    
+<!-- <script>
   let taxSwitch=document.getElementById("flexSwitchCheckDefault");
   taxSwitch.addEventListener("click",()=>{
     let taxInfo=document.getElementsByClassName("tax-info");
-    for(info of taxInfo){
+    for(info of taxInfo){s
       if(info.style.display!="inline"){
         info.style.display="inline";
       }else{
@@ -114,5 +197,5 @@
       }
     }
   });
-</script>
+</script> -->
 
